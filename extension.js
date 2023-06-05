@@ -1,18 +1,28 @@
 const vscode = require('vscode');
 
 
+const {getUserInput} =  require('./lib/basics')
+
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-	console.log('Congratulations, your extension "goose" is now active!');
 
-	let disposable = vscode.commands.registerCommand('goose.helloWorld', function () {
-
-		vscode.window.showInformationMessage('Hello World from goose!');
+	let commnadHelloWorld = vscode.commands.registerCommand('goose.helloWorld', function () {
+		var userInput = getUserInput()
+		userInput.then((data) => {
+			vscode.window.showInformationMessage(`User typed: ${data}`)
+		})
 	});
 
-	context.subscriptions.push(disposable);
+	let commandExplainCode = vscode.commands.registerCommand('goose.explain', function () {
+		// select code and send to server
+		const editor = vscode.window.activeTextEditor;
+		var selectedText = editor.document.getText(editor.selection);
+		vscode.window.showInformationMessage(`You have selected ${selectedText}`)
+	});
+
+	context.subscriptions.push(commnadHelloWorld, commandExplainCode);
 }
 
 // This method is called when your extension is deactivated
