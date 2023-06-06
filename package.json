@@ -9,7 +9,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onView:goose.chatView"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
@@ -32,10 +34,18 @@
       ]
     }
   },
+  "views":{
+    "explorer": [
+      {
+        "type": "webview",
+        "id": "goose.chatView",
+        "name": "Goose"
+      }
+    ]
+  },
   "scripts": {
     "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "node ./test/runTest.js"
+    "pretest": "npm run lint"
   },
   "devDependencies": {
     "@types/vscode": "^1.78.0",
