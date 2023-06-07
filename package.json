@@ -35,7 +35,7 @@
     }
   },
   "views":{
-    "explorer": [
+    "webview": [
       {
         "type": "webview",
         "id": "goose.chatView",
