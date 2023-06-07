@@ -2,6 +2,7 @@ const vscode = require('vscode');
 
 
 const {getUserInput} =  require('./lib/basics')
+const {LeftPanelWebview} = require('./left-panel-webview')
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -22,7 +23,10 @@ function activate(context) {
 		vscode.window.showInformationMessage(`You have selected ${selectedText}`)
 	});
 
-	context.subscriptions.push(commnadHelloWorld, commandExplainCode);
+	let leftPanelWebview = new LeftPanelWebview();
+	let leftPanelView = vscode.window.registerWebviewViewProvider(LEFT_VIEW_PANEL_ID, leftPanelWebview);
+
+	context.subscriptions.push(commnadHelloWorld, commandExplainCode, leftPanelView);
 }
 
 // This method is called when your extension is deactivated

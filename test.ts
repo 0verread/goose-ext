@@ -1,20 +1,20 @@
-import { WebviewViewProvider, WebviewView, Webview, Uri, EventEmitter, window} from "vscode";
+const { WebviewViewProvider, WebviewView, Webview, Uri, EventEmitter, window } = require("vscode");
 
-export class LeftPanelWebview implements WebviewViewProvider {
-	constructor(
-		private readonly extensionPath: Uri,
-		private data: any,
-		private _view: any = null
-	) {}
-    private onDidChangeTreeData: EventEmitter<any | undefined | null | void> = new EventEmitter<any | undefined | null | void>();
+class LeftPanelWebview extends WebviewViewProvider {
+	constructor(extensionPath, data, _view = null) {
+		super();
+		this.extensionPath = extensionPath;
+		this.data = data;
+		this._view = _view;
+		this.onDidChangeTreeData = new EventEmitter();
+	}
 
-    refresh(context: any): void {
-        this.onDidChangeTreeData.fire(null);
-        this._view.webview.html = this._getHtmlForWebview(this._view?.webview);
-    }
+	refresh(context) {
+		this.onDidChangeTreeData.fire(null);
+		this._view.webview.html = this._getHtmlForWebview(this._view?.webview);
+	}
 
-	//called when a view first becomes visible
-	resolveWebviewView(webviewView: WebviewView): void | Thenable<void> {
+	resolveWebviewView(webviewView) {
 		webviewView.webview.options = {
 			enableScripts: true,
 			localResourceRoots: [this.extensionPath],
@@ -24,9 +24,9 @@ export class LeftPanelWebview implements WebviewViewProvider {
 		this.activateMessageListener();
 	}
 
-	private activateMessageListener() {
+	activateMessageListener() {
 		this._view.webview.onDidReceiveMessage((message) => {
-			switch (message.action){
+			switch (message.action) {
 				case 'SHOW_WARNING_LOG':
 					window.showWarningMessage(message.data.message);
 					break;
@@ -36,27 +36,19 @@ export class LeftPanelWebview implements WebviewViewProvider {
 		});
 	}
 
-	private _getHtmlForWebview(webview: Webview) {
-		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
-		// Script to handle user action
+	_getHtmlForWebview(webview) {
 		const scriptUri = webview.asWebviewUri(
 			Uri.joinPath(this.extensionPath, "script", "left-webview-provider.js")
 		);
 		const constantUri = webview.asWebviewUri(
 			Uri.joinPath(this.extensionPath, "script", "constant.js")
 		);
-		// CSS file to handle styling
 		const styleUri = webview.asWebviewUri(
 			Uri.joinPath(this.extensionPath, "script", "left-webview-provider.css")
 		);
-
-		//vscode-icon file from codicon lib
 		const codiconsUri = webview.asWebviewUri(
 			Uri.joinPath(this.extensionPath, "script", "codicon.css")
 		);
-
-		// Use a nonce to only allow a specific script to be run.
-		// const nonce = Utils.getNonce();
 
 		return `<html>
                 <head>
