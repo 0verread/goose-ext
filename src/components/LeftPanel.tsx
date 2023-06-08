@@ -8,6 +8,7 @@ function LeftPanel({message}: LeftPanelProp){
             <div>Sidebar panel</div>
             <span>{message}</span>
             <button>Submit</button>
+            <button>Send</button>
         </div>
     );
 }
