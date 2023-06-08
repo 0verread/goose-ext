@@ -23,8 +23,8 @@ function activate(context) {
 		vscode.window.showInformationMessage(`You have selected ${selectedText}`)
 	});
 
-	let leftPanelWebview = new LeftPanelWebview();
-	let leftPanelView = vscode.window.registerWebviewViewProvider(LEFT_VIEW_PANEL_ID, leftPanelWebview);
+	let leftPanelWebview = new LeftPanelWebview(context.extensionUri);
+	let leftPanelView = vscode.window.registerWebviewViewProvider('goose-chatView', leftPanelWebview);
 
 	context.subscriptions.push(commnadHelloWorld, commandExplainCode, leftPanelView);
 }

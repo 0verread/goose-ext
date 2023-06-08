@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:goose.chatView"
+    "onView:goose-chatView"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -38,7 +38,7 @@
     "webview": [
       {
         "type": "webview",
-        "id": "goose.chatView",
+        "id": "goose-chatView",
         "name": "Goose"
       }
     ]
