@@ -3,6 +3,7 @@
   "displayName": "goose",
   "description": "vs codee extension to understand large codebase",
   "version": "0.0.1",
+  "type": "module",
   "engines": {
     "vscode": "^1.78.0"
   },
@@ -10,14 +11,34 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:goose-chatView"
+    "onView:goose-sidebar"
   ],
   "main": "./extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "goose-chatView",
+          "title": "Goose",
+          "icon": "media/goose-logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "goose-chatView": [
+        {
+          "type": "webview",
+          "id": "goose-sidebar",
+          "name": "Goose",
+          "icon": "media/goose-logo.svg",
+          "contextualTitle": "Goose extension"
+        }
+      ]
+    },
     "commands": [
       {
-      "command": "goose.helloWorld",
-      "title": "Hello World"
+        "command": "goose.helloWorld",
+        "title": "Hello World"
       },
       {
         "command": "goose.explain",
@@ -34,28 +55,22 @@
       ]
     }
   },
-  "views":{
-    "webview": [
-      {
-        "type": "webview",
-        "id": "goose-chatView",
-        "name": "Goose"
-      }
-    ]
-  },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint"
   },
   "devDependencies": {
-    "@types/vscode": "^1.78.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "20.2.5",
+    "@types/vscode": "^1.78.0",
+    "@vscode/test-electron": "^2.3.2",
     "eslint": "^8.41.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^5.1.3",
-    "@vscode/test-electron": "^2.3.2"
+    "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
   }
 }

@@ -1,4 +1,5 @@
-const { WebviewViewProvider, WebviewView, Webview, Uri, EventEmitter, window } = require("vscode");
+import { WebviewViewProvider, Uri, EventEmitter, window } from "vscode";
+import Sidebar from "./sidebar/Sidebar";
 
 export class LeftPanelWebview extends WebviewViewProvider {
 	constructor(extensionPath, data, _view = null) {
@@ -36,38 +37,55 @@ export class LeftPanelWebview extends WebviewViewProvider {
 		});
 	}
 
+	getNonce = () => {
+		let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 32; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+	}
 	_getHtmlForWebview(webview) {
+		const styleResetUri = webview.asWebviewUri(
+			Uri.joinPath(this.extensionPath, "media", "reset.css")
+		);
+		const styleVSCodeUri = webview.asWebviewUri(
+			Uri.joinPath(this.extensionPath, "media", "vscode.css")
+		);
 		const scriptUri = webview.asWebviewUri(
-			Uri.joinPath(this.extensionPath, "script", "left-webview-provider.js")
+			Uri.joinPath(this.extensionPath, "out", "compiled/sidebar.js")
 		);
-		const constantUri = webview.asWebviewUri(
-			Uri.joinPath(this.extensionPath, "script", "constant.js")
+		const styleMainUri = webview.asWebviewUri(
+			Uri.joinPath(this.extensionPath, "out", "compiled/sidebar.css")
 		);
-		const styleUri = webview.asWebviewUri(
-			Uri.joinPath(this.extensionPath, "script", "left-webview-provider.css")
-		);
-		const codiconsUri = webview.asWebviewUri(
-			Uri.joinPath(this.extensionPath, "script", "codicon.css")
-		);
+		const nonce = getNonce();
+		return `<!DOCTYPE html>
+		<html lang="en">
+		<head>
+			<meta charset="UTF-8">
+			<!--
+				Use a content security policy to only allow loading images from https or from our extension directory,
+				and only allow scripts that have a specific nonce.
+			-->
+			<meta http-equiv="Content-Security-Policy" content="img-src https: data:; style-src 'unsafe-inline' ${webview.cspSource
+					}; script-src 'nonce-${nonce}';">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<link href="${styleResetUri}" rel="stylesheet">
+			<link href="${styleVSCodeUri}" rel="stylesheet">
+							<link href="${styleMainUri}" rel="stylesheet">
+							<script nonce="${nonce}">
+									const tsvscode = acquireVsCodeApi();
+							</script>
 
-		return `<html>
-                <head>
-                    <meta charSet="utf-8"/>
-                    <meta http-equiv="Content-Security-Policy" 
-                            content="default-src 'none';
-                            img-src vscode-resource: https:;
-                            font-src ${webview.cspSource};
-                            style-src ${webview.cspSource} 'unsafe-inline';
-							
-							;">             
-
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <link href="${codiconsUri}" rel="stylesheet" />
-                    <link href="${styleUri}" rel="stylesheet">
-
-                </head>
-                <body>
-				</body>
-            </html>`;
+		</head>
+		<body>
+			${                     
+				ReactDOMServer.renderToString((
+				<Sidebar message={"Tutorial for Left Panel Webview in VSCode extension"}></Sidebar>
+			))
+			}
+			<script nonce="${nonce}" src="${scriptUri}"></script>
+		</body>
+		</html>`;
 	}
 }

@@ -1,8 +1,9 @@
-const vscode = require('vscode');
 
+import * as vscode from 'vscode';
 
-const {getUserInput} =  require('./lib/basics')
-const {LeftPanelWebview} = require('./left-panel-webview')
+import { LeftPanelWebview } from './left-panel-webview';
+import getUserInput from './lib/basics'
+
 
 /**
  * @param {vscode.ExtensionContext} context
