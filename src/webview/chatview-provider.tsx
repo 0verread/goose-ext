@@ -18,15 +18,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             localResourceRoots: [this._extensionUri],
         };
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
+       this._view.webview.html = this._getHtmlForWebview(webviewView.webview);
 
         // Listen for messages from the Sidebar component and execute action
-        webviewView.webview.onDidReceiveMessage(async (data) => {
+        this._view.webview.onDidReceiveMessage(async (data) => {
+            console.log("hello")
             switch (data.type) {
-                // case "onSomething: {
-                //     // code here...
-                //     break;
-                // }
                 case "onInfo": {
                     if (!data.value) {
                         return;
@@ -57,6 +54,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         const styleVSCodeUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
         );
+        const scriptMainUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, "media", "main.js")
+        );
+        
         const scriptUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri, "out", "compiled/sidebar.js")
         );
@@ -83,8 +84,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
                 </head>
                 <body>
-                    ${ReactDOMServer.renderToString((<LeftPanel message={"SOmehitbng"}></LeftPanel>))}
+                    ${ReactDOMServer.renderToString((<LeftPanel message={"this is sidebar"}></LeftPanel>))}
                     <script nonce="${nonce}" src="${scriptUri}"></script>
+                    <script nonce="${nonce}" src="${scriptMainUri}"></script>
                 </body>
 			</html>`;
     }

@@ -4,11 +4,16 @@ interface LeftPanelProp {
 
 function LeftPanel({message}: LeftPanelProp){
     return (
-        <div>
-            <div>Sidebar panel</div>
-            <span>{message}</span>
-            <button>Submit</button>
-            <button>Send</button>
+        <div className='panel-wrapper'>
+            <div>
+                <h2>Sidebar panel</h2>
+            </div>
+            <form>
+                <span>{message}</span>
+            </form>
+            <button onClick={() => {
+                tsvscode.postMessage({ type: "onInfo", value: "Something"})
+            }}>Submit</button>
         </div>
     );
 }
