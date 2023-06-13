@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
-import { SidebarProvider } from 'webview/chatview-provider';
+import { SidebarProvider } from './webview/chatview-provider';
 
 export function activate(context: vscode.ExtensionContext) {
-	const sidebarProvider = new SidebarProvider(context.extensionUri)
-	const chatView = vscode.window.registerWebviewViewProvider("goose-left-panel", sidebarProvider)
+	const sidebarProvider = new SidebarProvider(context.extensionUri);
+	const chatView = vscode.window.registerWebviewViewProvider("goose-left-panel", sidebarProvider);
 	let commandHelloWorld = vscode.commands.registerCommand('goose.helloWorld', () => {
 		vscode.window.showInformationMessage('Hello World from goose!');
 	});
@@ -11,11 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let commnadExplain = vscode.commands.registerCommand('goose.explain', ()=> {
 		const editor = vscode.window.activeTextEditor;
 		var selectedText = editor?.document.getText(editor.selection);
-		console.log(sidebarProvider)
-		sidebarProvider._view.webview.postMessage({
-			type: 'onInfo',
-			value: selectedText
-		})
+		vscode.window.showInformationMessage("herehere")
 	});
 
 

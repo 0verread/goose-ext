@@ -17,9 +17,11 @@
 		"noUnusedParameters": false,  /* Report errors on unused parameters. */
 		"noEmitHelpers": true,
 		"importHelpers": true,
+		// "allowSyntheticDefaultImports": true,
 	},
 	"exclude": [
 		"node_modules",
-		".vscode-test"
-	]
+		".vscode-test",
+	],
+	"typeRoots": ["./node_modules/@types"]
 }

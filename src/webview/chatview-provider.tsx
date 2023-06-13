@@ -1,6 +1,4 @@
 import * as vscode from "vscode";
-import LeftPanel from "components/LeftPanel";
-import * as ReactDOMServer from 'react-dom/server'
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
     _view?: vscode.WebviewView;
@@ -21,9 +19,22 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
        this._view.webview.html = this._getHtmlForWebview(webviewView.webview);
 
         // Listen for messages from the Sidebar component and execute action
-        this._view.webview.onDidReceiveMessage(async (data) => {
+        webviewView.webview.onDidReceiveMessage(async (data) => {
             console.log("hello")
             switch (data.type) {
+                case "onFetchText": {
+                    let editor = vscode.window.activeTextEditor;
+        
+                    if (editor === undefined) {
+                        vscode.window.showErrorMessage('No active text editor');
+                        return;
+                    }
+        
+                    let text = editor.document.getText(editor.selection);
+                    // send message back to the sidebar component
+                    this._view?.webview.postMessage({ type: "onSelectedText", value: text });
+                    break;
+                }
                 case "onInfo": {
                     if (!data.value) {
                         return;
@@ -54,9 +65,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         const styleVSCodeUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
         );
-        const scriptMainUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(this._extensionUri, "media", "main.js")
-        );
+        // const scriptMainUri = webview.asWebviewUri(
+        //     vscode.Uri.joinPath(this._extensionUri, "media", "main.js")
+        // );
         
         const scriptUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri, "out", "compiled/sidebar.js")
@@ -84,9 +95,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
                 </head>
                 <body>
-                    ${ReactDOMServer.renderToString((<LeftPanel message={"this is sidebar"}></LeftPanel>))}
                     <script nonce="${nonce}" src="${scriptUri}"></script>
-                    <script nonce="${nonce}" src="${scriptMainUri}"></script>
                 </body>
 			</html>`;
     }
