@@ -19,13 +19,6 @@
     });
 </script>
 
-<h1>Sidebar Panel</h1>
-<label for="text"><b>Selected text</b></label>
-<textarea
-    rows="15"
-    id="text"
-    style="resize: vertical;"
-    minlength="30"
-    bind:value={text}
-/>
-<button on:click={fetchText}>fetch text</button>
+<span>
+    {text}
+</span>

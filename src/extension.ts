@@ -12,7 +12,6 @@ export function activate(context: vscode.ExtensionContext) {
 		const editor = vscode.window.activeTextEditor;
 		var selectedText = editor?.document.getText(editor.selection);
 		sidebarProvider._view?.webview.postMessage({ type: "onSelectedText", value: selectedText })
-		// vscode.window.showInformationMessage(`selected text: ${selectedText}`);
 	});
 
 
