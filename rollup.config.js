@@ -18,6 +18,7 @@ export default fs
             output: {
                 sourcemap: true,
                 format: "iife",
+                format: 'cjs',
                 name: "app",
                 file: "out/compiled/" + name + ".js",
 

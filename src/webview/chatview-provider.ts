@@ -20,7 +20,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         // Listen for messages from the Sidebar component and execute action
         webviewView.webview.onDidReceiveMessage(async (data) => {
-            console.log("hello")
             switch (data.type) {
                 case "onFetchText": {
                     let editor = vscode.window.activeTextEditor;
