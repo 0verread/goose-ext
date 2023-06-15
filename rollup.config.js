@@ -34,6 +34,8 @@ export default fs
                         css.write(name + ".css");
                     },
                     preprocess: sveltePreprocess(),
+                    // issue and ans https://github.com/sveltejs/template/issues/193
+                    emitCss: false,
                 }),
 
 

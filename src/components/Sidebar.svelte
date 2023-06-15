@@ -19,6 +19,13 @@
     });
 </script>
 
-<span>
-    {text}
-</span>
+<style>
+    div{
+        rows: "15";
+        resize: "vertical";
+        min-width: "30";
+        max-width: 500px;
+    }
+</style>
+
+<div>{text}</div>
