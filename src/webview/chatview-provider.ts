@@ -12,7 +12,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         webviewView.webview.options = {
             // Allow scripts in the webview
             enableScripts: true,
-
             localResourceRoots: [this._extensionUri],
         };
 
@@ -91,7 +90,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                         const tsvscode = acquireVsCodeApi();
                     </script>
 
-                </head> 
+                </head>
+                <body> 
                     <script nonce="${nonce}" src="${scriptUri}"></script>
                 </body>
 			</html>`;
