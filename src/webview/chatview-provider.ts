@@ -69,7 +69,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             vscode.Uri.joinPath(this._extensionUri, "out", "compiled/sidebar.js")
         );
         const styleMainUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(this._extensionUri, "out", "compiled/sidebar.css")
+            vscode.Uri.joinPath(this._extensionUri, "media", "scripts", "tailwind.min.js")
+        );
+        const showdownUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, "media", "scripts", "showdown.min.js")
+        );
+        const microlightUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, "media", "scripts", "microlight.min.js")
         );
 
         // Use a nonce to only allow a specific script to be run.
@@ -86,12 +92,19 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     <link href="${styleResetUri}" rel="stylesheet">
                     <link href="${styleVSCodeUri}" rel="stylesheet">
                     <link href="${styleMainUri}" rel="stylesheet">
+                    <link href="${showdownUri}" rel="stylesheet">
+                    <link href="${microlightUri}" rel="stylesheet">
                     <script nonce="${nonce}">
                         const tsvscode = acquireVsCodeApi();
                     </script>
 
                 </head>
                 <body> 
+                    <input class="h-10 w-full text-white bg-stone-700 p-4 text-sm" type="text" id="prompt-input" />
+
+                    <div id="response" class="pt-6 text-sm">
+                    </div>
+
                     <script nonce="${nonce}" src="${scriptUri}"></script>
                 </body>
 			</html>`;

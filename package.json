@@ -42,12 +42,21 @@
       {
         "command": "goose.explain",
         "title": "Goose: explain"
+      },
+      {
+        "command": "goose.optimize",
+        "title": "Goose: optimize"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "goose.explain",
+          "when": "editorHasSelection",
+          "group": "mygroup@1"
+        },
+        {
+          "command": "goose.optimize",
           "when": "editorHasSelection",
           "group": "mygroup@1"
         }

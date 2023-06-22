@@ -14,6 +14,12 @@ export function activate(context: vscode.ExtensionContext) {
 		sidebarProvider._view?.webview.postMessage({ type: "onSelectedText", value: selectedText })
 	});
 
+	let commandOptimize = vscode.commands.registerCommand('goose.optimize', () => {
+		const editor  = vscode.window.activeTextEditor;
+		var selectedText = editor?.document.getText(editor.selection);
+		sidebarProvider._view?.webview.postMessage({type: "onSelectedTextToOptimize", value: selectedText})
+	})
+
 
 	context.subscriptions.push(commandHelloWorld, commnadExplain, chatView);
 }
