@@ -100,11 +100,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
                 </head>
                 <body> 
-                    <input class="h-10 w-full text-white bg-stone-700 p-4 text-sm" type="text" id="prompt-input" />
-
-                    <div id="response" class="pt-6 text-sm">
-                    </div>
-
                     <script nonce="${nonce}" src="${scriptUri}"></script>
                 </body>
 			</html>`;

@@ -1,10 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
     let text = "";
-    // function fetchText() {
-    //     // send message to the extension asking for the selected text
-    //     tsvscode.postMessage({ type: "onFetchText", value: "" });
-    // }
     onMount(() => {
         // Listen for messages from the extension
         window.addEventListener("message", (event) => {
@@ -16,7 +12,12 @@
                 }
                 case "onSelectedTextToOptimize": {
                     text = "To optimize:" + message.value;
-                    // call 
+                    // call API 
+                    break;
+                }
+                case "onSelectedTextToRefactor": {
+                    text = "To refactor:" + message.value;
+                    // call API 
                     break;
                 }
             }
