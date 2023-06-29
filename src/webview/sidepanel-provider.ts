@@ -68,30 +68,30 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
             this.webView?.show?.(true);
         }
 
-        let response: String = '';
+        let response: String = 'Hiiiii';
 
         this.sendMessageToWebView({ type: 'addQuestion', value: prompt, code });
         try {
             let currentMessageNumber = this.message;
-            let completion;
-            try {
-                completion = await this.openAiApi.createCompletion({
-                    model: 'code-davinci-003',
-                    prompt: question,
-                    temperature: 0.5,
-                    max_tokens: 2048,
-                    stop: ['\n\n\n', '<|im_end|>'],
-                });
-            } catch (error: any) {
-                await vscode.window.showErrorMessage("Error sending request to ChatGPT", error);
-                return;
-            }
+            // let completion;
+            // try {
+            //     completion = await this.openAiApi.createCompletion({
+            //         model: 'code-davinci-002',
+            //         prompt: question,
+            //         temperature: 0.5,
+            //         max_tokens: 2048,
+            //         stop: ['\n\n\n', '<|im_end|>'],
+            //     });
+            // } catch (error: any) {
+            //     await vscode.window.showErrorMessage("Error sending request to ChatGPT", error);
+            //     return;
+            // }
 
             if (this.message !== currentMessageNumber) {
                 return;
             }
 
-            response = completion?.data.choices[0].text || '';
+            // response = completion?.data.choices[0].text || '';
 
             const REGEX_CODEBLOCK = new RegExp('\`\`\`', 'g');
             const matches = response.match(REGEX_CODEBLOCK);
@@ -138,19 +138,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
                             <div class="loader"></div>
                             <div>Please note, ChatGPT facing scaling issues which will impact this extension</div>
                         </div>
-					</div>
-					<div class="p-4 flex items-center">
-						<div class="flex-1">
-							<textarea
-								type="text"
-								rows="2"
-								class="border p-2 w-full"
-								id="question-input"
-								placeholder="Ask a question..."
-							></textarea>
-						</div>
-						<button style="background: var(--vscode-button-background)" id="ask-button" class="p-2 ml-5">Ask</button>
-						<button style="background: var(--vscode-button-background)" id="clear-button" class="p-2 ml-3">Clear</button>
 					</div>
 				</div>
 				<script src="${scriptUri}"></script>
