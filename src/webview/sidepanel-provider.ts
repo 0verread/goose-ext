@@ -68,30 +68,31 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
             this.webView?.show?.(true);
         }
 
-        let response: String = 'Hiiiii';
+        let response: String = '';
 
         this.sendMessageToWebView({ type: 'addQuestion', value: prompt, code });
         try {
             let currentMessageNumber = this.message;
-            // let completion;
-            // try {
-            //     completion = await this.openAiApi.createCompletion({
-            //         model: 'code-davinci-002',
-            //         prompt: question,
-            //         temperature: 0.5,
-            //         max_tokens: 2048,
-            //         stop: ['\n\n\n', '<|im_end|>'],
-            //     });
-            // } catch (error: any) {
-            //     await vscode.window.showErrorMessage("Error sending request to ChatGPT", error);
-            //     return;
-            // }
+            let completion;
+            try {
+                completion = await this.openAiApi.createCompletion({
+                    model: 'text-davinci-002',
+                    prompt: question,
+                    temperature: 0.5,
+                    max_tokens: 2048,
+                    stop: ['\n\n\n', '<|im_end|>'],
+                });
+            } catch (error: any) {
+                console.log("error: ", error);
+                await vscode.window.showErrorMessage("Error sending request to ChatGPT", error);
+                return;
+            }
 
             if (this.message !== currentMessageNumber) {
                 return;
             }
 
-            // response = completion?.data.choices[0].text || '';
+            response = completion?.data.choices[0].text || '';
 
             const REGEX_CODEBLOCK = new RegExp('\`\`\`', 'g');
             const matches = response.match(REGEX_CODEBLOCK);
