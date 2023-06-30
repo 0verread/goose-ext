@@ -39,9 +39,11 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
         if (!this.apiKey) {
             const apiKeyInput = await vscode.window.showInputBox({
-                prompt: "Please enter your OpenAI API Key, can be located at https://openai.com/account/api-keys",
+                prompt: "Please enter your API Key",
                 ignoreFocusOut: true,
             });
+
+            // get OpenAI api key from the map of userApiKey-OpenAIKey
             this.apiKey = apiKeyInput!;
             this.context.globalState.update('chatgpt-api-key', this.apiKey);
         }
@@ -70,7 +72,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
         let response: String = '';
 
-        this.sendMessageToWebView({ type: 'addQuestion', value: prompt, code });
         try {
             let currentMessageNumber = this.message;
             let completion;
@@ -133,13 +134,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			<body class="overflow-hidden">
 				<div class="flex flex-col h-screen">
 					<div class="flex-1 overflow-y-auto" id="qa-list"></div>
-					<div id="in-progress" class="p-4 flex items-center hidden">
-                        <div style="text-align: center;">
-                            <div>Please wait while we handle your request ❤️</div>
-                            <div class="loader"></div>
-                            <div>Please note, ChatGPT facing scaling issues which will impact this extension</div>
-                        </div>
-					</div>
 				</div>
 				<script src="${scriptUri}"></script>
 			</body>

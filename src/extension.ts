@@ -7,12 +7,11 @@ export async function activate(context: vscode.ExtensionContext) {
 	const chatViewProvider = new ChatGptViewProvider(context);
 
 	context.subscriptions.push(
-		// vscode.commands.registerCommand('goose.explain', askChatGPT),
 		// vscode.commands.registerCommand('chatgpt-vscode-plugin.whyBroken', askGPTWhyBroken),
 		vscode.commands.registerCommand('goose.explain', askGPTToExplain),
 		vscode.commands.registerCommand('goose.optimize', askGPTToRefactor),
 		// vscode.commands.registerCommand('chatgpt-vscode-plugin.addTests', askGPTToAddTests),
-		vscode.commands.registerCommand('chatgpt-vscode-plugin.resetToken', resetToken),
+		// vscode.commands.registerCommand('chatgpt-vscode-plugin.resetToken', resetToken),
 		vscode.window.registerWebviewViewProvider("goose-left-panel", chatViewProvider, {
 			webviewOptions: { retainContextWhenHidden: true }
 		})
