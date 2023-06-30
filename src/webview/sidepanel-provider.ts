@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai';
 import * as vscode from 'vscode';
 
-export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
+export default class SidePanelProvider implements vscode.WebviewViewProvider {
     private webView?: vscode.WebviewView;
     private openAiApi?: OpenAIApi;
     private apiKey?: string;
@@ -56,7 +56,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
             try {
                 this.openAiApi = new OpenAIApi(new Configuration({ apiKey: this.apiKey }));
             } catch (error: any) {
-                vscode.window.showErrorMessage("Failed to connect to ChatGPT", error?.message);
+                vscode.window.showErrorMessage("Failed to connect", error?.message);
                 return;
             }
         }

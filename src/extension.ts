@@ -1,38 +1,33 @@
 import * as vscode from 'vscode';
-import { SidebarProvider } from './webview/chatview-provider';
-import ChatGptViewProvider from './webview/sidepanel-provider';
+import SidePanelProvider from './webview/sidepanel-provider';
 
 export async function activate(context: vscode.ExtensionContext) {
 
-	const chatViewProvider = new ChatGptViewProvider(context);
+	const sidePanelViewProvider = new SidePanelProvider(context);
 
 	context.subscriptions.push(
-		// vscode.commands.registerCommand('chatgpt-vscode-plugin.whyBroken', askGPTWhyBroken),
-		vscode.commands.registerCommand('goose.explain', askGPTToExplain),
-		vscode.commands.registerCommand('goose.optimize', askGPTToRefactor),
-		// vscode.commands.registerCommand('chatgpt-vscode-plugin.addTests', askGPTToAddTests),
-		// vscode.commands.registerCommand('chatgpt-vscode-plugin.resetToken', resetToken),
-		vscode.window.registerWebviewViewProvider("goose-left-panel", chatViewProvider, {
+		vscode.commands.registerCommand('goose.explain', askGooseToExplain),
+		vscode.commands.registerCommand('goose.optimize', askGooseToRefactor),
+		vscode.window.registerWebviewViewProvider("goose-left-panel", sidePanelViewProvider, {
 			webviewOptions: { retainContextWhenHidden: true }
 		})
 	);
 
-	async function askGPTToExplain() { await askChatGPT('Can you explain what this code does?'); }
-	// async function askGPTWhyBroken() { await askChatGPT('Why is this code broken?'); }
-	async function askGPTToRefactor() { await askChatGPT('Can you refactor this code and explain what\'s changed?'); }
-	// async function askGPTToAddTests() { await askChatGPT('Can you add tests for this code?'); }
+	async function askGooseToExplain() { await askGoose('Can you explain what this code does?'); }
+	async function askGooseToRefactor() { await askGoose('Can you refactor this code and explain what\'s changed?'); }
 
+	// TODO: Remove. unused code
 	async function resetToken() {
-		await context.globalState.update('chatgpt-session-token', null);
-		await context.globalState.update('chatgpt-clearance-token', null);
-		await context.globalState.update('chatgpt-user-agent', null);
-		await chatViewProvider.ensureApiKey();
-		// await vscode.window.showInformationMessage("Token reset, you'll be prompted for it next to you next ask ChatGPT a question.");
+		await context.globalState.update('token', null);
+		await context.globalState.update('clearance-token', null);
+		await context.globalState.update('user-agent', null);
+		await sidePanelViewProvider.ensureApiKey();
+		// await vscode.window.showInformationMessage("Token reset, you'll be prompted for it next to you next ask a question.");
 	}
 
-	async function askChatGPT(userInput?: string) {
+	async function askGoose(userInput?: string) {
 		if (!userInput) {
-			userInput = await vscode.window.showInputBox({ prompt: "Ask ChatGPT a question" }) || "";
+			userInput = await vscode.window.showInputBox({ prompt: "Ask a question" }) || "";
 		}
 
 		let editor = vscode.window.activeTextEditor;
@@ -45,31 +40,10 @@ export async function activate(context: vscode.ExtensionContext) {
 				? selectedCode
 				: `This is the ${editor.document.languageId} file I'm working on: \n\n${entireFileContents}`;
 
-			chatViewProvider.sendOpenAiApiRequest(userInput, code);
+				sidePanelViewProvider.sendOpenAiApiRequest(userInput, code);
 		}
 	}
 
-
-	// const sidebarProvider = new SidebarProvider(context.extensionUri);
-	// const chatView = vscode.window.registerWebviewViewProvider("goose-left-panel", sidebarProvider);
-	// let commandHelloWorld = vscode.commands.registerCommand('goose.helloWorld', () => {
-	// 	vscode.window.showInformationMessage('Hello World from goose!');
-	// });
-
-	// let commnadExplain = vscode.commands.registerCommand('goose.explain', ()=> {
-	// 	const editor = vscode.window.activeTextEditor;
-	// 	var selectedText = editor?.document.getText(editor.selection);
-	// 	sidebarProvider._view?.webview.postMessage({ type: "onSelectedText", value: selectedText })
-	// });
-
-	// let commandOptimize = vscode.commands.registerCommand('goose.optimize', () => {
-	// 	const editor  = vscode.window.activeTextEditor;
-	// 	var selectedText = editor?.document.getText(editor.selection);
-	// 	sidebarProvider._view?.webview.postMessage({type: "onSelectedTextToOptimize", value: selectedText})
-	// })
-
-
-	// context.subscriptions.push(commandHelloWorld, commnadExplain, chatView);
 }
 
 // This method is called when your extension is deactivated

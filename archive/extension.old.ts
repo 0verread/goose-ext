@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { SidebarProvider } from './webview/chatview-provider';
+import { SidebarProvider } from './chatview-provider';
 
 export async function activate(context: vscode.ExtensionContext) {
 	const sidebarProvider = new SidebarProvider(context.extensionUri);

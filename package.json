@@ -36,16 +36,12 @@
     },
     "commands": [
       {
-        "command": "goose.helloWorld",
-        "title": "Hello World"
-      },
-      {
         "command": "goose.explain",
-        "title": "Goose: explain"
+        "title": "Goose: Explain"
       },
       {
         "command": "goose.optimize",
-        "title": "Goose: optimize"
+        "title": "Goose: Refactor"
       }
     ],
     "menus": {
