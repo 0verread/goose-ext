@@ -22,7 +22,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		await context.globalState.update('clearance-token', null);
 		await context.globalState.update('user-agent', null);
 		await sidePanelViewProvider.ensureApiKey();
-		// await vscode.window.showInformationMessage("Token reset, you'll be prompted for it next to you next ask a question.");
+		await vscode.window.showInformationMessage("Token reset, you'll be prompted for it next to you next ask a question.");
 	}
 
 	async function askGoose(userInput?: string) {
