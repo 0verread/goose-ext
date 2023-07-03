@@ -85,7 +85,7 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
                 });
             } catch (error: any) {
                 console.log("error: ", error);
-                await vscode.window.showErrorMessage("Error sending request to ChatGPT", error);
+                await vscode.window.showErrorMessage("Error sending request", error);
                 return;
             }
 
