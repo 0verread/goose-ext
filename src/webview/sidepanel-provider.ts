@@ -1,6 +1,12 @@
 import { Configuration, OpenAIApi } from 'openai';
 import * as vscode from 'vscode';
 
+import secrets from "../utils/secrets.json";
+
+interface NestedDict<T> {
+    [key: string]: T | NestedDict<T>;
+}
+
 export default class SidePanelProvider implements vscode.WebviewViewProvider {
     private webView?: vscode.WebviewView;
     private openAiApi?: OpenAIApi;
@@ -34,8 +40,15 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
         }
     }
 
-    public async ensureApiKey() {
+
+    public async ensureApiKey(userApiKey?: string) {
         this.apiKey = await this.context.globalState.get('chatgpt-api-key') as string;
+
+        if (userApiKey) {
+            console.log("Coming here", userApiKey)
+            const apikeys: NestedDict<string> = secrets;
+            console.log(apikeys[userApiKey])
+        }
 
         if (!this.apiKey) {
             const apiKeyInput = await vscode.window.showInputBox({
