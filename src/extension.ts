@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+
 import SidePanelProvider from './webview/sidepanel-provider';
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -8,6 +9,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('goose.explain', askGooseToExplain),
 		vscode.commands.registerCommand('goose.optimize', askGooseToRefactor),
+		vscode.commands.registerCommand('goose.setApiKey', resetToken),
+		vscode.commands.registerCommand('goose.resetApiKey', resetToken),
 		vscode.window.registerWebviewViewProvider("goose-left-panel", sidePanelViewProvider, {
 			webviewOptions: { retainContextWhenHidden: true }
 		})
@@ -16,13 +19,14 @@ export async function activate(context: vscode.ExtensionContext) {
 	async function askGooseToExplain() { await askGoose('Can you explain what this code does?'); }
 	async function askGooseToRefactor() { await askGoose('Can you refactor this code and explain what\'s changed?'); }
 
-	// TODO: Remove. unused code
+	// Used to reset API key
 	async function resetToken() {
 		await context.globalState.update('token', null);
 		await context.globalState.update('clearance-token', null);
 		await context.globalState.update('user-agent', null);
+		await context.globalState.update('chatgpt-api-key', null)
 		await sidePanelViewProvider.ensureApiKey();
-		await vscode.window.showInformationMessage("Token reset, you'll be prompted for it next to you next ask a question.");
+		// await vscode.window.showInformationMessage("Token reset, you'll be prompted for it next to you next ask a question.");
 	}
 
 	async function askGoose(userInput?: string) {

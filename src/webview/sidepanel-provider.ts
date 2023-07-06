@@ -39,6 +39,7 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
 
         if (!this.apiKey) {
             const apiKeyInput = await vscode.window.showInputBox({
+                // User Input: API key first time
                 prompt: "Please enter your API Key",
                 ignoreFocusOut: true,
             });
@@ -46,6 +47,7 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
             // get OpenAI api key from the map of userApiKey-OpenAIKey
             this.apiKey = apiKeyInput!;
             this.context.globalState.update('chatgpt-api-key', this.apiKey);
+            vscode.window.showInformationMessage('API key set Successfully.')
         }
     }
 

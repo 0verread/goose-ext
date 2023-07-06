@@ -42,6 +42,14 @@
       {
         "command": "goose.optimize",
         "title": "Goose: Refactor"
+      },
+      {
+        "command": "goose.setApiKey",
+        "title": "Goose: Set API key"
+      },
+      {
+        "command": "goose.resetApiKey",
+        "title": "Goose: Reset API key"
       }
     ],
     "menus": {
