@@ -3,10 +3,6 @@ import * as vscode from 'vscode';
 
 import secrets from "../utils/secrets.json";
 
-interface NestedDict<T> {
-    [key: string]: T | NestedDict<T>;
-}
-
 export default class SidePanelProvider implements vscode.WebviewViewProvider {
     private webView?: vscode.WebviewView;
     private openAiApi?: OpenAIApi;
@@ -50,7 +46,6 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
                 prompt: "Please enter your API Key",
                 ignoreFocusOut: true,
             });
-            // console.log(typeof secrets)
             const realApiKey: string = secrets[apiKeyInput]?.apiKey;
             if (!realApiKey) {
                 vscode.window.showErrorMessage("Wrong API key!");
@@ -118,7 +113,7 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
 
             this.sendMessageToWebView({ type: 'addResponse', value: response });
         } catch (error: any) {
-            await vscode.window.showErrorMessage("Error sending request to ChatGPT", error);
+            await vscode.window.showErrorMessage("Error sending request to Server", error);
             return;
         }
     }
