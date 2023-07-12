@@ -84,11 +84,10 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
             let currentMessageNumber = this.message;
             let completion;
             try {
-                completion = await this.openAiApi.createCompletion({
-                    model: 'text-davinci-002',
-                    prompt: question,
-                    temperature: 0.5,
-                    max_tokens: 2048,
+                completion = await this.openAiApi.createChatCompletion({
+                    model: 'gpt-3.5-turbo',
+                    messages: [
+                      { role: 'user', content: question }],
                     stop: ['\n\n\n', '<|im_end|>'],
                 });
             } catch (error: any) {
@@ -101,7 +100,7 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
                 return;
             }
 
-            response = completion?.data.choices[0].text || '';
+            response = completion?.data.choices[0].message?.content || '';
 
             const REGEX_CODEBLOCK = new RegExp('\`\`\`', 'g');
             const matches = response.match(REGEX_CODEBLOCK);
@@ -109,7 +108,7 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
             if (count % 2 !== 0) {
                 response += '\n\`\`\`';
             }
-
+            
             this.sendMessageToWebView({ type: 'addResponse', value: response });
         } catch (error: any) {
             await vscode.window.showErrorMessage("Error sending request to Server", error);
