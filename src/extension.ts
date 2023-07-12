@@ -8,6 +8,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('goose.explain', askGooseToExplain),
+		vscode.commands.registerCommand('goose.refactor', askGooseToRefactor),
 		vscode.commands.registerCommand('goose.optimize', askGooseToRefactor),
 		vscode.commands.registerCommand('goose.setApiKey', resetToken),
 		vscode.commands.registerCommand('goose.resetApiKey', resetToken),
@@ -19,6 +20,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	// TODO: more structural. Better prompt.
 	async function askGooseToExplain() { await askGoose('Can you explain what this code does?'); }
 	async function askGooseToRefactor() { await askGoose('Please refactor the provided code and return the result code only'); }
+	async function askGooseToOptimize() { await askGoose('Please optimize the provided code and return the result code only'); }
 
 	// Used to reset API key
 	async function resetToken() {

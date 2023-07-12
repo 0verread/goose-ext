@@ -40,8 +40,12 @@
         "title": "Goose: Explain"
       },
       {
-        "command": "goose.optimize",
+        "command": "goose.refactor",
         "title": "Goose: Refactor"
+      },
+      {
+        "command": "goose.optimize",
+        "title": "Goose: Optimize"
       },
       {
         "command": "goose.setApiKey",
@@ -60,11 +64,15 @@
           "group": "mygroup@1"
         },
         {
+          "command": "goose.refactor",
+          "when": "editorHasSelection",
+          "group": "mygroup@1"
+        },
+        {
           "command": "goose.optimize",
           "when": "editorHasSelection",
           "group": "mygroup@1"
-        }
-      ]
+        }]
     }
   },
   "scripts": {
