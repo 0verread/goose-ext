@@ -86,8 +86,8 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
             try {
                 completion = await this.openAiApi.createChatCompletion({
                     model: 'gpt-3.5-turbo',
-                    messages: [
-                      { role: 'user', content: question }],
+                    messages: [{ role: 'user', content: question }],
+                    n: 1,
                     stop: ['\n\n\n', '<|im_end|>'],
                 });
             } catch (error: any) {
