@@ -3,6 +3,7 @@
   "displayName": "goose",
   "description": "",
   "version": "0.0.1",
+  "repository": "https://github.com/orgateailabs/goose",
   "engines": {
     "vscode": "^1.78.0"
   },
