@@ -1,14 +1,16 @@
 {
-  "name": "goose",
-  "displayName": "goose",
+  "name": "OrgateAIGoose",
+  "displayName": "Goose from OrgateAI",
   "description": "",
   "version": "0.0.1",
   "repository": "https://github.com/orgateailabs/goose",
+  "publisher": "OrgateAI",
+  "icon": "assets/goose-logo.svg",
   "engines": {
     "vscode": "^1.78.0"
   },
   "categories": [
-    "Other"
+    "dev tools"
   ],
   "activationEvents": [
     "onView:goose-left-panel"
