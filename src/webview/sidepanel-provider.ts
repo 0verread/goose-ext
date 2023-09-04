@@ -40,7 +40,6 @@ export default class SidePanelProvider implements vscode.WebviewViewProvider {
 
 
     public async ensureApiKey(userApiKey?: string) {
-        // 
         this.apiKey = await this.context.globalState.get('chatgpt-api-key') as string || process.env.OPENAI_API;
         this.context.globalState.update('chatgpt-api-key', this.apiKey);
         // if (!this.apiKey) {
