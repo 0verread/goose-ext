@@ -29,7 +29,6 @@ export async function activate(context: vscode.ExtensionContext) {
 		await context.globalState.update('user-agent', null);
 		await context.globalState.update('chatgpt-api-key', null)
 		await sidePanelViewProvider.ensureApiKey();
-		// await vscode.window.showInformationMessage("Token reset, you'll be prompted for it next to you next ask a question.");
 	}
 
 	async function askGoose(userInput?: string) {

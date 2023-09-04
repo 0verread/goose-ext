@@ -1,6 +1,6 @@
 {
   "name": "OrgateAIGoose",
-  "displayName": "Goose from OrgateAI",
+  "displayName": "OrgateAI",
   "description": "",
   "version": "0.0.1",
   "repository": "https://github.com/orgateailabs/goose",
@@ -75,7 +75,8 @@
           "command": "goose.optimize",
           "when": "editorHasSelection",
           "group": "mygroup@1"
-        }]
+        }
+      ]
     }
   },
   "scripts": {
@@ -121,6 +122,7 @@
   "dependencies": {
     "@types/react": "^18.2.9",
     "@types/react-dom": "^17.0.11",
+    "dotenv": "^16.3.1",
     "dotenv-webpack": "^7.1.0",
     "module-alias": "^2.2.2",
     "path": "^0.12.7",
