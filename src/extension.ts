@@ -47,6 +47,8 @@ export async function activate(context: vscode.ExtensionContext) {
 				: `This is the ${editor.document.languageId} file I'm working on: \n\n${entireFileContents}`;
 
 				sidePanelViewProvider.sendOpenAiApiRequest(userInput, code);
+		} else {
+			console.log("Something went wrong, the editor is not available");
 		}
 	}
 
