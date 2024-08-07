@@ -19,7 +19,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// TODO: more structural. Better prompt.
 	async function askGooseToExplain() { await askGoose('Can you explain what this code does?'); }
-	async function askGooseToRefactor() { await askGoose('Please refactor the provided code and return the result code only'); }
+	async function askGooseToRefactor() { await askGoose('you are expert in this programming language. Please refactor the provided code and return the result code only'); }
 	async function askGooseToOptimize() { await askGoose('Please optimize the provided code logic and return the result code only'); }
 
 	// Used to reset API key
