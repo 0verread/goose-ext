@@ -4,8 +4,6 @@ Goose ( from [OrgateAI](https://www.orgateai.com/)) is LLM powered VS code exten
 
 ### How to use it :
 
-Goose is in its early version and being tested by handful selected developers. If you want to get access, shoot an email to Subhajit [iamsubhajit.d@gmail.com](mailto:iamsubhajit.d@gmail.com) 
-
 #### Setup :
 - Install the Goose VS code extension.
 - Open Commnad pallet in VS code ( type ```cmd + shift + p``` )
